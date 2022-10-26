@@ -40,7 +40,7 @@ export const signupApi = async (
         },
       },
     });
-    console.log(data)
+    console.log(data);
     if (data.user === null) {
       alert("email already in use, please enter another email address");
     } else {
