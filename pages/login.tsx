@@ -4,12 +4,12 @@ import LoginForm from "../components/loginForm";
 
 interface Props {}
 
-function loign({}: Props): ReactElement {
+function login({}: Props): ReactElement {
   return (
     <div>
       <>
         <div className="flex min-h-screen">
-          <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+          <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 ">
             <div className="mx-auto w-full max-w-sm lg:w-96">
               <div>
                 {/* <img
@@ -135,4 +135,4 @@ function loign({}: Props): ReactElement {
   );
 }
 
-export default loign;
+export default login;
