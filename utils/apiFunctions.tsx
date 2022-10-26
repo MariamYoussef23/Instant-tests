@@ -40,21 +40,23 @@ export const signupApi = async (
         },
       },
     });
-
-    console.log(data);
-
-   const res =  await supabaseClient.auth.signInWithPassword({
-      email: values.email,
-      password: values.password,
-    });
-    console.log(res)
-    const res2 = await API.post("/api/user/signup", {
-      ...values,
-      id: data.user?.id,
-    });
-    console.log(res2)
-    // router.push("/");
-    console.log("success");
+    console.log(data)
+    if (data.user === null) {
+      alert("email already in use, please enter another email address");
+    } else {
+      const res = await supabaseClient.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+      console.log(res);
+      const res2 = await API.post("/api/user/signup", {
+        ...values,
+        id: data.user?.id,
+      });
+      console.log(res2);
+      router.push("/");
+      console.log("success");
+    }
   } catch (error) {
     console.log(error);
   }
