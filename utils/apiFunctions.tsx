@@ -2,7 +2,7 @@ import { SupabaseClient } from "@supabase/auth-helpers-react";
 import router, { NextRouter } from "next/router";
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:3000" });
+const API = axios.create({ baseURL: "http://localhost:3000/api" });
 
 export const loginApi = async (
   values: any,
@@ -48,16 +48,52 @@ export const signupApi = async (
         email: values.email,
         password: values.password,
       });
-      console.log(res);
+
       const res2 = await API.post("/api/user/signup", {
         ...values,
         id: data.user?.id,
       });
-      console.log(res2);
+
       router.push("/");
-      console.log("success");
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getAllQuestions = async () => {
+  try {
+    const res = await API.get("/questions");
+    return res.data.testBank;
+  } catch (e) {
+    console.log(e);
+  }
+};
+export const getAllQuestionsByCategory = async () => {
+  try {
+    const res = await API.get("/categories/questions");
+    return res.data.testBank;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+
+
+export const getCategories = async () => {
+  try {
+    const res = await API.get("/categories");
+    return res.data.categories;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const getDifficulty = async () => {
+  try {
+    const res = await API.get("/difficulty");
+    return res.data.difficulty;
+  } catch (e) {
+    console.log(e);
   }
 };

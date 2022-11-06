@@ -28,18 +28,26 @@ model Category {
 
 model Question {
   id          Int       @id @default(autoincrement())
-  difficulty  Int
   question    String
   firstA      String 
   secondA     String 
   thirdA      String 
   fourthA     String 
+  fifthA      String 
   correctA    String 
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   category    Category     @relation(fields: [categoryId], references: [id])
   categoryId  Int
+  difficulty  Difficulty     @relation(fields: [difficultyId], references: [id])
+  difficultyId  Int          
   tests       QuestionsOnTests[]
+}
+
+model Difficulty {
+  id          Int       @id @default(autoincrement())
+  name       String
+  questions   Question[]
 }
 
 model Test {

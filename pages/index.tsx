@@ -1,20 +1,15 @@
 import { useUser } from "@supabase/auth-helpers-react";
 import type { NextPage } from "next";
 import React from "react";
-import Header from "../components/Header";
+import HomeHeader from "../components/HomeHeader";
+
 
 const Home: NextPage = () => {
   const user = useUser();
-  console.log(user);
+ 
   return (
     <div>
-      <Header />
-      {/* <div className="px-10 py-10 flex flex-col text-center ">
-        <h1 className="sm:text-6xl text-lg">
-          Welcome
-          {!user ? null : ` ${user.user_metadata.firstName}`}
-        </h1>
-      </div> */}
+      <HomeHeader />
 
       <main className="mx-auto mt-16 max-w-7xl px-4 sm:mt-24">
         <div className="text-center">
@@ -53,7 +48,7 @@ const Home: NextPage = () => {
               </div>
               <div className="rounded-full shadow-2xl m-10">
                 <a
-                  href="#"
+                  href="testBank"
                   className="flex rounded-full w-full items-center justify-center border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
                 >
                   View test bank
