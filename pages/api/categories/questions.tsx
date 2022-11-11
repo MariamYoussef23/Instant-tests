@@ -7,7 +7,6 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      const {} = req.body;
       const testBank = await prisma.category.findMany({
           include: {
               questions: true

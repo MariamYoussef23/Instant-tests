@@ -3,6 +3,7 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition, Combobox, Listbox } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { suggestedQuestions } from "../utils/apiFunctions";
 
 interface Props {
   data: any;
@@ -11,64 +12,59 @@ interface Props {
 function TestModal({ data }: Props): ReactElement {
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
-
   const categories = data.categories;
   const difficulty = data.difficulty;
-
+ 
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
-  //categories combobox
-  const [query, setQuery] = useState("");
-//   const [selectedCategory, setSelectedCategory] = useState(categories[0]);
-//   console.log(selectedCategory);
-  const filteredCategories =
-    query === ""
-      ? categories
-      : categories.filter((category: any) => {
-          return category.name.toLowerCase().includes(query.toLowerCase());
-        });
-  //difficulty combobox
-  const [diff, setDiff] = useState("");
-  const [selectedDifficulty, setSelectedDifficulty] = useState(null);
-  //   console.log(selectedDifficulty);
-  const filteredDifficulties =
-    diff === ""
-      ? difficulty
-      : difficulty.filter((difficulty: any) => {
-          return difficulty.name.includes(diff);
-        });
 
-  //formValuesArray
-  const [inputList, setInputList] = useState([
-    { category: "", difficulty: "", number: "" },
-  ]);
+  const initialState = {
+    categoryId: `${categories[0].id }`,
+    difficultyId: `${difficulty[0].id}`,
+    number: 1,
+  };
+
+  //formformInputArray
+  const [formInput, setFormInput] = useState([initialState]);
+
+  const clearState = () => {
+    setFormInput([initialState]);
+  };
+
   // handle input change
   const handleInputChange = (e: any, index: any) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    const list = [...inputList];
+    const { name, value }: any = e.target;
+    const list = [...formInput];
     list[index][name] = value;
-    setInputList(list);
-  };
-  // handle Comboinput change
-  const handleComboInputChange = (e: any, index: any) => {
-    const { name, value } = e.target;
-    console.log(name, value);
-    const list = [...inputList];
-    list[index][name] = value;
-    setInputList(list);
+    setFormInput(list);
+    console.log(formInput)
   };
 
   // handle click event of the Remove button
   const handleRemoveClick = (index: any) => {
-    const list = [...inputList];
+    const list = [...formInput];
     list.splice(index, 1);
-    setInputList(list);
+    setFormInput(list);
   };
   // handle click event of the Add button
   const handleAddClick = () => {
-    setInputList([...inputList, { category: "", difficulty: "", number: "" }]);
+    setFormInput([
+      ...formInput,
+      {
+        categoryId: `${categories[0].id }`,
+        difficultyId: `${difficulty[0].id}`,
+        number: 1,
+      },
+    ]);
+  };
+
+  const formSubmit = (formInput: any) => {
+    const values = { criteria: formInput };
+    console.log(values);
+    suggestedQuestions(values)
+    // .then(clearState);
+    setOpen(false);
   };
 
   return (
@@ -123,24 +119,23 @@ function TestModal({ data }: Props): ReactElement {
 
                     <div className="mt-3 text-left sm:mt-0 sm:ml-4 ">
                       <form>
-                        {inputList.map((x, i) => {
+                        {formInput.map((x, i) => {
                           return (
-                            <div className="mt-2 grid md:grid-cols-2 grid-cols-1 border p-2 rounded-xl">
-                              <div className="p-2">
-                                <label htmlFor="category">Category</label>
+                            <div className="mt-2 grid md:grid-cols-4 grid-cols-1 border p-2 rounded-xl">
+                              <div className="p-2 col-span-4">
+                                <label htmlFor="categoryId">Category</label>
                                 <select
-                                  className="block w-full rounded-full border-gray-300 bg-gray-50 pl-4  text-black focus:border-black focus:ring-black sm:text-sm"
+                                  className="block w-full rounded-lg border-gray-300 bg-gray-50 pl-4  text-black focus:border-black focus:ring-black sm:text-sm"
                                   placeholder="Select a category"
-                                  name="category"
-                                  id="category"
-                                  value={x.category}
+                                  name="categoryId"
+                                  id="categoryId"
+                                  value={x.categoryId}
                                   onChange={(e) => handleInputChange(e, i)}
                                 >
                                   {categories.map((category: any) => (
                                     <option
-                                      key={category.name}
-                                      value={category.name}
-                                      
+                                      key={category.id}
+                                      value={category.id}
                                     >
                                       {category.name}
                                     </option>
@@ -148,7 +143,25 @@ function TestModal({ data }: Props): ReactElement {
                                 </select>
                               </div>
 
-                              <div className="p-2">
+                              <div className="p-2 col-span-2">
+                                <label htmlFor="difficultyId">difficulty</label>
+                                <select
+                                  className="block w-full rounded-lg border-gray-300 bg-gray-50 pl-4  text-black focus:border-black focus:ring-black sm:text-sm"
+                                  placeholder="Select a category"
+                                  name="difficultyId"
+                                  id="difficultyId"
+                                  value={x.difficultyId}
+                                  onChange={(e) => handleInputChange(e, i)}
+                                >
+                                  {difficulty.map((level: any) => (
+                                    <option key={level.name} value={level.id}>
+                                      {level.name}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              <div className="p-2 col-span-2">
                                 <label
                                   htmlFor="number"
                                   className="block text-sm font-medium text-gray-700"
@@ -168,7 +181,7 @@ function TestModal({ data }: Props): ReactElement {
                                 </div>
                               </div>
 
-                              {inputList.length !== 1 && (
+                              {formInput.length !== 1 && (
                                 <button
                                   className="inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                   onClick={() => handleRemoveClick(i)}
@@ -176,9 +189,9 @@ function TestModal({ data }: Props): ReactElement {
                                   Remove
                                 </button>
                               )}
-                              {inputList.length - 1 === i && (
+                              {formInput.length - 1 === i && (
                                 <button
-                                  className="inline-flex items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                  className="inline-flex col-start-4 items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                   onClick={handleAddClick}
                                 >
                                   Add another Category
@@ -193,18 +206,10 @@ function TestModal({ data }: Props): ReactElement {
                   <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
                     <button
                       type="button"
-                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
-                      onClick={() => setOpen(false)}
-                    >
-                      Deactivate
-                    </button>
-                    <button
-                      type="button"
                       className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-base font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:mt-0 sm:w-auto sm:text-sm"
-                      onClick={() => setOpen(false)}
-                      ref={cancelButtonRef}
+                      onClick={() => formSubmit(formInput)}
                     >
-                      Cancel
+                      Submit
                     </button>
                   </div>
                 </Dialog.Panel>
@@ -218,177 +223,3 @@ function TestModal({ data }: Props): ReactElement {
 }
 
 export default TestModal;
-
-// <Combobox
-// as="div"
-// name="selectedCategory"
-// value={selectedCategory}
-// onChange={() => {
-//   setSelectedCategory;
-//   // handleInputChange(selectedCategory, i);
-// }}
-// className="col-span-2 p-2"
-// >
-// <Combobox.Label className="block text-sm font-medium text-gray-700">
-//   Category
-// </Combobox.Label>
-// <div className=" mt-1">
-//   <div className="relative mt-1 ">
-//     <Combobox.Input
-//       className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-//       name="selectedCategory"
-//       // value={x.selectedCategory}
-//       onChange={(e) => {
-//         setQuery(e.target.value);
-//         //   handleInputChange(e, i);
-//       }}
-//       displayValue={(category: any) =>
-//         category?.name
-//       }
-//     />
-
-//     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-//       <ChevronUpDownIcon
-//         className="h-5 w-5 text-gray-400"
-//         aria-hidden="true"
-//       />
-//     </Combobox.Button>
-//   </div>
-
-//   {filteredCategories.length > 0 && (
-//     <Combobox.Options className=" z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-//       {filteredCategories.map(
-//         (category: any) => (
-//           <Combobox.Option
-//             key={category.id}
-//             value={category}
-//             className={({ active }) =>
-//               classNames(
-//                 "relative cursor-default select-none py-2 pl-8 pr-4",
-//                 active
-//                   ? "bg-indigo-600 text-white"
-//                   : "text-gray-900"
-//               )
-//             }
-//           >
-//             {({ active, selected }) => (
-//               <>
-//                 <span
-//                   className={classNames(
-//                     "block truncate",
-//                     selected && "font-semibold"
-//                   )}
-//                 >
-//                   {category.name}
-//                 </span>
-
-//                 {selected && (
-//                   <span
-//                     className={classNames(
-//                       "absolute inset-y-0 left-0 flex items-center pl-1.5",
-//                       active
-//                         ? "text-white"
-//                         : "text-indigo-600"
-//                     )}
-//                   >
-//                     <CheckIcon
-//                       className="h-5 w-5"
-//                       aria-hidden="true"
-//                     />
-//                   </span>
-//                 )}
-//               </>
-//             )}
-//           </Combobox.Option>
-//         )
-//       )}
-//     </Combobox.Options>
-//   )}
-// </div>
-// </Combobox>
-
-// <Combobox
-// as="div"
-// name="difficulty"
-// value={selectedDifficulty}
-// onChange={setSelectedDifficulty}
-
-// className="p-2"
-// >
-// <Combobox.Label className="block text-sm font-medium text-gray-700">
-//   Difficulty
-// </Combobox.Label>
-// <div className=" mt-1">
-//   <div className="relative mt-1 ">
-//     <Combobox.Input
-//       className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
-//       name="difficulty"
-//       onChange={(event) => {
-//         setDiff(event.target.value);
-
-//         // handleInputChange(event, i);
-//       }}
-//       displayValue={(difficulty: any) =>
-//         difficulty?.name
-//       }
-//     />
-
-//     <Combobox.Button className="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
-//       <ChevronUpDownIcon
-//         className="h-5 w-5 text-gray-400"
-//         aria-hidden="true"
-//       />
-//     </Combobox.Button>
-//   </div>
-
-//   {filteredDifficulties.length > 0 && (
-//     <Combobox.Options className=" z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-//       {filteredDifficulties.map(
-//         (difficulty: any) => (
-//           <Combobox.Option
-//             key={difficulty.id}
-//             value={difficulty}
-//             className={({ active }) =>
-//               classNames(
-//                 "relative cursor-default select-none py-2 pl-8 pr-4",
-//                 active
-//                   ? "bg-indigo-600 text-white"
-//                   : "text-gray-900"
-//               )
-//             }
-//           >
-//             {({ active, selected }) => (
-//               <>
-//                 <span
-//                   className={classNames(
-//                     "block truncate",
-//                     selected && "font-semibold"
-//                   )}
-//                 >
-//                   {difficulty.name}
-//                 </span>
-
-//                 {selected && (
-//                   <span
-//                     className={classNames(
-//                       "absolute inset-y-0 left-0 flex items-center pl-1.5",
-//                       active
-//                         ? "text-white"
-//                         : "text-indigo-600"
-//                     )}
-//                   >
-//                     <CheckIcon
-//                       className="h-5 w-5"
-//                       aria-hidden="true"
-//                     />
-//                   </span>
-//                 )}
-//               </>
-//             )}
-//           </Combobox.Option>
-//         )
-//       )}
-//     </Combobox.Options>
-//   )}
-// </div>
-// </Combobox>

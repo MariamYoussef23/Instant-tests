@@ -78,8 +78,6 @@ export const getAllQuestionsByCategory = async () => {
   }
 };
 
-
-
 export const getCategories = async () => {
   try {
     const res = await API.get("/categories");
@@ -95,5 +93,15 @@ export const getDifficulty = async () => {
     return res.data.difficulty;
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const suggestedQuestions = async (values: any) => {
+  try {
+    const res = await API.post("/questions/options", values)
+    console.log(res)
+    
+  } catch (error) {
+
   }
 };

@@ -32,7 +32,6 @@ function TestBankFilter({ data }: Props): ReactElement {
     { id: "difficulty", name: "Difficulty", options: difficulty },
   ];
 
-  console.log(categories);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
   return (
