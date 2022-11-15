@@ -1,6 +1,8 @@
 import { SupabaseClient } from "@supabase/auth-helpers-react";
 import router, { NextRouter } from "next/router";
 import axios from "axios";
+import { Dispatch } from "redux";
+import { addOptions } from "../redux/optionsSlice";
 
 const API = axios.create({ baseURL: "http://localhost:3000/api" });
 
@@ -96,12 +98,11 @@ export const getDifficulty = async () => {
   }
 };
 
-export const suggestedQuestions = async (values: any) => {
+export const suggestedQuestionsAPI = async (dispatch: Dispatch, values: any) => {
   try {
-    const res = await API.post("/questions/options", values)
-    console.log(res)
-    
-  } catch (error) {
-
-  }
+    const res: any = await API.post("/questions/options", values);
+    console.log(res);
+    // save res in redux
+    dispatch(addOptions(res.data));
+  } catch (error) {}
 };

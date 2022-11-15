@@ -3,24 +3,30 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition, Combobox, Listbox } from "@headlessui/react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { suggestedQuestions } from "../utils/apiFunctions";
+import { suggestedQuestionsAPI } from "../../utils/apiFunctions";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { options } from "../../redux/optionsSlice";
 
 interface Props {
   data: any;
 }
 
 function TestModal({ data }: Props): ReactElement {
+  const dispatch = useAppDispatch();
+  const questions = useAppSelector(options);
+  
+
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
   const categories = data.categories;
   const difficulty = data.difficulty;
- 
+
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
 
   const initialState = {
-    categoryId: `${categories[0].id }`,
+    categoryId: `${categories[0].id}`,
     difficultyId: `${difficulty[0].id}`,
     number: 1,
   };
@@ -34,11 +40,10 @@ function TestModal({ data }: Props): ReactElement {
 
   // handle input change
   const handleInputChange = (e: any, index: any) => {
-    const { name, value }: any = e.target;
-    const list = [...formInput];
+    const { name, value } = e.target;
+    const list = [...formInput] as any;
     list[index][name] = value;
     setFormInput(list);
-    console.log(formInput)
   };
 
   // handle click event of the Remove button
@@ -52,7 +57,7 @@ function TestModal({ data }: Props): ReactElement {
     setFormInput([
       ...formInput,
       {
-        categoryId: `${categories[0].id }`,
+        categoryId: `${categories[0].id}`,
         difficultyId: `${difficulty[0].id}`,
         number: 1,
       },
@@ -60,10 +65,9 @@ function TestModal({ data }: Props): ReactElement {
   };
 
   const formSubmit = (formInput: any) => {
-    const values = { criteria: formInput };
+    const values = { criteria: formInput, previous: questions };
     console.log(values);
-    suggestedQuestions(values)
-    // .then(clearState);
+    suggestedQuestionsAPI(dispatch, values).then(clearState); //pass dispatch too !
     setOpen(false);
   };
 
@@ -75,7 +79,7 @@ function TestModal({ data }: Props): ReactElement {
           className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={() => setOpen(true)}
         >
-          Create New
+          Find Questions
         </button>
       </div>
       <Transition.Root show={open} as={Fragment}>

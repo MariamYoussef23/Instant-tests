@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { criteria } = req.body;
+    const { criteria, previous } = req.body;
 
     const data = [];
 
@@ -17,23 +17,33 @@ export default async function handler(
           difficultyId: +criteria[i].difficultyId,
         },
       });
+
+      //removing previous to ensure questions are not repeated
+      const filteredQuestions = questions.filter((ad) =>
+        previous.every((fd: any) => fd.id !== ad.id)
+      );
+
       var len;
-      if (+criteria[i].number <= questions.length) {
+      if (+criteria[i].number <= filteredQuestions.length) {
         len = +criteria[i].number;
       } else {
-        len = questions.length;
+        len = filteredQuestions.length;
       }
+
       for (let j = 0; j < len; j++) {
         // get random index value
-        const randomIndex = Math.floor(Math.random() * questions.length);
+        const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
         // get random item and adding it to a the output array
-        data.push(questions[randomIndex]);
+        data.push(filteredQuestions[randomIndex]);
         //remove chosen item from the questions array
-        questions.splice(randomIndex, 1);
+        filteredQuestions.splice(randomIndex, 1);
       }
     }
 
-    return res.status(200).json(data);
+    //re shuffle the output array to make sure the order is random
+    const dataShuffled = data.sort((a, b) => 0.5 - Math.random());
+
+    return res.status(200).json(dataShuffled);
   } catch (error) {
     console.log(error);
   }

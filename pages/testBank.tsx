@@ -4,7 +4,7 @@ import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 import { User } from ".prisma/client";
-import TestBankFilter from "../components/testBankFilter";
+import TestBankFilter from "../components/testBankPage/testBankFilter";
 import { GetStaticPaths, GetStaticProps } from "next/types";
 import { SupabaseClient } from "@supabase/auth-helpers-react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
