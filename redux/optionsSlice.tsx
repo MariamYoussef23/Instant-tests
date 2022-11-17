@@ -4,7 +4,11 @@ import type { RootState } from "./store";
 
 // Define a type for the slice state
 interface OptionsState {
-  value: [];
+  value: [
+    {
+      hidden?: boolean;
+    }?
+  ];
 }
 
 // Define the initial state using that type
@@ -20,10 +24,19 @@ export const optionsSlice = createSlice({
     addOptions: (state, action: PayloadAction<[]>) => {
       state.value = [...state.value, ...action.payload];
     },
+    // set hidden to true
+    handleHidden: (state, action: PayloadAction<{ id: any }>) => {
+      let index = state.value.findIndex(
+        (obj: any) => obj.id === action.payload.id
+      );
+      if (index != -1) {
+        state.value[index]!.hidden = !state.value[index]!.hidden;
+      }
+    },
   },
 });
 
-export const { addOptions } = optionsSlice.actions;
+export const { addOptions, handleHidden } = optionsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const options = (state: RootState) => state.options.value;

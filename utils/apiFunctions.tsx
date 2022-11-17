@@ -101,8 +101,12 @@ export const getDifficulty = async () => {
 export const suggestedQuestionsAPI = async (dispatch: Dispatch, values: any) => {
   try {
     const res: any = await API.post("/questions/options", values);
-    console.log(res);
+    const response = res.data.map((v: any) => ({
+      ...v,
+      hidden: false,
+    }))
+    console.log(response)
     // save res in redux
-    dispatch(addOptions(res.data));
+    dispatch(addOptions(response));
   } catch (error) {}
 };

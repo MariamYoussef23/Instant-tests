@@ -1,4 +1,6 @@
 import React, { ReactElement } from "react";
+import { useAppDispatch } from "../../redux/hooks";
+import { addQuestion } from "../../redux/testSlice";
 
 interface Props {
   filteredCategory: any;
@@ -6,6 +8,7 @@ interface Props {
 
 function FilteredCategory({ filteredCategory }: Props): ReactElement {
   console.log(filteredCategory);
+  const dispatch = useAppDispatch();
   return (
     <div>
       {filteredCategory.length === 0 && (
@@ -16,7 +19,7 @@ function FilteredCategory({ filteredCategory }: Props): ReactElement {
       {filteredCategory.length !== 0 && ( filteredCategory.map((category: any) => (
         <>
           {category.questions.map((question: any, indx: any) => (
-            <div className="p-3 border rounded-xl m-3">
+            <div className="p-3 border rounded-xl m-3" key={indx}>
               <h2 className="underline ">{question.question}</h2>
               <ol className="pl-5">
                 <li className="p-1">A) {question.firstA}</li>
@@ -29,9 +32,9 @@ function FilteredCategory({ filteredCategory }: Props): ReactElement {
                 <button
                   type="button"
                   className="m-2 inline-flex items-center rounded border border-transparent bg-green-300 px-2.5 py-1.5 text-xs font-medium text-green-800 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                  // onClick={() => {
-                  //   dispatch(addQuestion(question));
-                  // }}
+                  onClick={() => {
+                    dispatch(addQuestion(question));
+                  }}
                 >
                   Add to test
                 </button>

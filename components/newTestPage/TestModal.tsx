@@ -125,7 +125,7 @@ function TestModal({ data }: Props): ReactElement {
                       <form>
                         {formInput.map((x, i) => {
                           return (
-                            <div className="mt-2 grid md:grid-cols-4 grid-cols-1 border p-2 rounded-xl">
+                            <div key={i} className="mt-2 grid md:grid-cols-4 grid-cols-1 border p-2 rounded-xl">
                               <div className="p-2 col-span-4">
                                 <label htmlFor="categoryId">Category</label>
                                 <select

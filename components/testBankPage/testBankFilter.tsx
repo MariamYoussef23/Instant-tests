@@ -256,13 +256,13 @@ function TestBankFilter({ data }: Props): ReactElement {
               {/* Product grid */}
               <div className="lg:col-span-3">
                 <div className="h-full rounded-lg border-4 border-dashed border-gray-200 h-full p-4">
-                  {categories.map((category: any) => (
-                    <>
+                  {categories.map((category: any, indx: number) => (
+                    <div key={indx}>
                       <h1 className="text-center font-bold p-6">
                         {category.name}
                       </h1>
                       {category.questions.map((question: any, indx: any) => (
-                        <div className="p-3">
+                        <div className="p-3" key={indx}>
                           <h2>
                             {" "}
                             {indx + 1}. {question.question}
@@ -276,12 +276,10 @@ function TestBankFilter({ data }: Props): ReactElement {
                           </ol>
                         </div>
                       ))}
-                    </>
+                    </div>
                   ))}
                 </div>
               </div>
-
-              
             </div>
           </section>
         </main>

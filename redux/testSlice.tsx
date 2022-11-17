@@ -4,7 +4,7 @@ import type { RootState } from "./store";
 
 // Define a type for the slice state
 interface OptionsState {
-  value: [];
+  value: any;
 }
 
 // Define the initial state using that type
