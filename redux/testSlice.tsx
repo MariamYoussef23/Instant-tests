@@ -32,32 +32,32 @@ export const optionsSlice = createSlice({
     removeQuestion: (state, action: PayloadAction<{}>) => {
       // state.value.push(action.payload);
     },
+    //function to change the question number to the new number in redux
+    //rearrange the questions according to the question number then change the question number
     editQuestionNo: (
       state,
       action: PayloadAction<{ number: string; id: any }>
     ) => {
-      let index = state.value.findIndex(
-        (obj: any) => obj.id === action.payload.id
-      );
-      if (index != -1) {
-        state.value[index]!.questionNo = action.payload.number;
+      if (action.payload.number !== "") {
+        let index = state.value.findIndex(
+          (obj: any) => obj.id === action.payload.id
+        );
+        if (index != -1) {
+          state.value[index]!.questionNo = action.payload.number;
+        }
+        const toIndex = +action.payload.number - 1;
+        const element = state.value.splice(index, 1)[0];
+        state.value.splice(toIndex, 0, element);
+        state.value.map((x: any, indx: any) => {
+          x.questionNo = indx + 1;
+        });
       }
-      const toIndex = +action.payload.number - 1;
-      const element = state.value.splice(index, 1)[0];
-      state.value.splice(toIndex, 0, element);
-    },
-    rearrangeQuestions: (state, action: PayloadAction<[]>) => {
-      state.value = action.payload;
     },
   },
 });
 
-export const {
-  addQuestion,
-  removeQuestion,
-  editQuestionNo,
-  rearrangeQuestions,
-} = optionsSlice.actions;
+export const { addQuestion, removeQuestion, editQuestionNo } =
+  optionsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const testQuestions = (state: RootState) => state.testQuestions.value;
