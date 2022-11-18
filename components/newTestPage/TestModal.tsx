@@ -14,7 +14,6 @@ interface Props {
 function TestModal({ data }: Props): ReactElement {
   const dispatch = useAppDispatch();
   const questions = useAppSelector(options);
-  
 
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null);
@@ -76,7 +75,7 @@ function TestModal({ data }: Props): ReactElement {
       <div className="flex flex-col items-center">
         <button
           type="button"
-          className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="mr-2 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={() => setOpen(true)}
         >
           Find Questions
@@ -125,7 +124,10 @@ function TestModal({ data }: Props): ReactElement {
                       <form>
                         {formInput.map((x, i) => {
                           return (
-                            <div key={i} className="mt-2 grid md:grid-cols-4 grid-cols-1 border p-2 rounded-xl">
+                            <div
+                              key={i}
+                              className="mt-2 grid md:grid-cols-4 grid-cols-1 border p-2 rounded-xl"
+                            >
                               <div className="p-2 col-span-4">
                                 <label htmlFor="categoryId">Category</label>
                                 <select

@@ -19,8 +19,8 @@ function Header({}: Props): ReactElement {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="bg-gray-100 shadow-lg ">
-      <header className="sticky top-0 px-10 py-5  md:flex md:items-start md:justify-between max-w-7xl mx-auto z-20 ">
+    <div className="bg-gray-100 shadow-lg z-0 ">
+      <header className="z-1 sticky top-0 px-10 py-5  md:flex md:items-start md:justify-between max-w-7xl mx-auto  ">
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ x: 0, opacity: 1, scale: 1 }}

@@ -8,6 +8,7 @@ import {
 } from "../utils/apiFunctions";
 import SuggestedQuestions from "../components/newTestPage/SuggestedQuestions";
 import FilteredCategory from "../components/newTestPage/FilteredCategory";
+import DraftTestModal from "../components/newTestPage/DraftTestModal";
 
 interface Props {
   data: any;
@@ -16,11 +17,11 @@ interface Props {
 function NewTest({ data }: Props): ReactElement {
   const categories = data.categories;
 
-  const [filteredCategory, setFilteredCategory] = useState('');
+  const [filteredCategory, setFilteredCategory] = useState("");
 
   const filter = (category: string) => {
     if (category === "Category") {
-      setFilteredCategory('');
+      setFilteredCategory("");
     } else
       setFilteredCategory(categories.filter((x: any) => x.name === category));
   };
@@ -33,8 +34,10 @@ function NewTest({ data }: Props): ReactElement {
           Create a new Test
         </h3>
         {/* choose questions modal  */}
-        <TestModal data={data} />
-
+        <div className="flex justify-center">
+          <TestModal data={data} />
+          <DraftTestModal />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 h-full m-10">
           <div className=" pr-2 ">
             <h1 className="border rounded-lg text-center ">

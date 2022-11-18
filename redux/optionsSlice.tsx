@@ -33,6 +33,7 @@ export const optionsSlice = createSlice({
         state.value[index]!.hidden = !state.value[index]!.hidden;
       }
     },
+    
   },
 });
 

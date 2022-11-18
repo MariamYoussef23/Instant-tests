@@ -72,6 +72,7 @@ model Type {
 
 
 model QuestionsOnTests {
+  questionNo String
   test       Test         @relation(fields: [testId], references: [id])
   testId     Int
   question   Question     @relation(fields: [questionId], references: [id])
