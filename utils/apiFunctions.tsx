@@ -51,7 +51,7 @@ export const signupApi = async (
         password: values.password,
       });
 
-      const res2 = await API.post("/api/user/signup", {
+      const res2 = await API.post("/user/signup", {
         ...values,
         id: data.user?.id,
       });
@@ -110,3 +110,23 @@ export const suggestedQuestionsAPI = async (dispatch: Dispatch, values: any) => 
     dispatch(addOptions(response));
   } catch (error) {}
 };
+
+
+export const getAllTests = async () => {
+  try {
+    const res = await API.get("/tests");
+    return res.data.tests;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const createNewTest = async (values: any) => {
+  try {
+    const res = await API.post("/tests/newTest", values);
+    return res.data.tests;
+  } catch (e) {
+    console.log(e);
+  }
+};
+

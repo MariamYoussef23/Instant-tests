@@ -1,7 +1,11 @@
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 import React, { ReactElement, useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { testQuestions, editQuestionNo } from "../../redux/testSlice";
+import {
+  testQuestions,
+  editQuestionNo,
+  removeQuestion,
+} from "../../redux/testSlice";
 
 interface Props {}
 
@@ -29,7 +33,7 @@ function DraftTest({}: Props): ReactElement {
     console.log(input);
     const { value, id } = input;
     dispatch(editQuestionNo({ number: value, id }));
-    setFields(initialState)
+    setFields(initialState);
   };
 
   return (
@@ -59,9 +63,10 @@ function DraftTest({}: Props): ReactElement {
                 handleChange(e, indx);
               }}
               //   defaultValue={question.questionNo}
-                value={fields[indx].questionNo}
+              value={fields[indx].questionNo}
             />
             <button
+              type="button"
               className="m-2 inline-flex items-center rounded border border-transparent bg-indigo-100 px-2.5 py-1.5 text-xs font-medium text-indigo-700 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               onClick={() => rearrange()}
             >
@@ -70,6 +75,7 @@ function DraftTest({}: Props): ReactElement {
             <button
               type="button"
               className="m-2 inline-flex items-center rounded border border-transparent bg-red-400 px-2.5 py-1.5 text-xs font-medium text-red-800 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+              onClick={() => dispatch(removeQuestion(question))}
             >
               Remove
             </button>

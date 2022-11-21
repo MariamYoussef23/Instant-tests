@@ -58,21 +58,14 @@ model Test {
   user        User         @relation(fields: [userId], references: [id])
   userId      String
   questions   QuestionsOnTests[]
-  type       Type         @relation(fields: [typeId], references: [id])
-  typeId     Int
 }
 
 
-model Type {
-  id          Int         @id @default(autoincrement())
-  name        String      @unique
-  tests       Test[]
-}
 
 
 
 model QuestionsOnTests {
-  questionNo String
+  questionNo Int
   test       Test         @relation(fields: [testId], references: [id])
   testId     Int
   question   Question     @relation(fields: [questionId], references: [id])

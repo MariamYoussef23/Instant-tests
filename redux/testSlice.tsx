@@ -29,8 +29,11 @@ export const optionsSlice = createSlice({
         });
       }
     },
-    removeQuestion: (state, action: PayloadAction<{}>) => {
-      // state.value.push(action.payload);
+    removeQuestion: (state, action: PayloadAction<{ id: any }>) => {
+      state.value.splice(
+        state.value.findIndex((a: any) => a.id === action.payload.id),
+        1
+      );
     },
     //function to change the question number to the new number in redux
     //rearrange the questions according to the question number then change the question number
@@ -53,10 +56,13 @@ export const optionsSlice = createSlice({
         });
       }
     },
+    clearTest: (state) => {
+      state.value = [];
+    },
   },
 });
 
-export const { addQuestion, removeQuestion, editQuestionNo } =
+export const { addQuestion, removeQuestion, editQuestionNo, clearTest } =
   optionsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
