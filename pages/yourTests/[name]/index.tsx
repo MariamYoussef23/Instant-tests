@@ -4,7 +4,7 @@ import React, { ReactElement } from "react";
 import Header from "../../../components/Header";
 import { prisma } from "../../../lib/prisma";
 import { useAppDispatch } from "../../../redux/hooks";
-import { editTestInitial } from "../../../redux/testSlice";
+import { clearTest, editTestInitial } from "../../../redux/testSlice";
 
 interface Props {
   test: any;
@@ -23,6 +23,7 @@ function Test({ test }: Props): ReactElement {
       question.questionNo = x.questionNo;
       testQuestions = [...testQuestions, question];
     });
+    dispatch(clearTest());
     dispatch(editTestInitial(testQuestions));
     router.push(`/yourTests/${test.name}/edit`);
   };
@@ -44,7 +45,12 @@ function Test({ test }: Props): ReactElement {
           Edit test
         </button>
       </div>
-      <div className="border m-10 rounded-3xl">
+      <div className="m-10 ">
+        {test.questions.length === 0 && (
+          <p className="border rounded-3xl mt-5 overflow-hidden bg-white text-center text-lg  shadow ">
+            No Questions On Test
+          </p>
+        )}
         {test.questions.map((question: any, indx: any) => (
           <div className="p-3 border-b m-3" key={indx}>
             <div className="flex">

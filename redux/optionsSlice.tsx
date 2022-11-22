@@ -42,6 +42,6 @@ export const optionsSlice = createSlice({
 export const { addOptions, handleHidden, clearOptions } = optionsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
-export const options = (state: RootState) => state.options.value;
+export const options = (state: RootState) => state.reducer.options.value;
 
 export default optionsSlice.reducer;

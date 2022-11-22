@@ -3,7 +3,8 @@ import type { AppProps } from "next/app";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { SessionContextProvider, Session } from "@supabase/auth-helpers-react";
 import { useState } from "react";
-import { store } from "../redux/store";
+import { persistor, store } from "../redux/store";
+import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 
 function MyApp({
@@ -17,12 +18,14 @@ function MyApp({
 
   return (
     <Provider store={store}>
-      <SessionContextProvider
-        supabaseClient={supabaseClient}
-        initialSession={pageProps.initialSession}
-      >
-        <Component {...pageProps} />
-      </SessionContextProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <SessionContextProvider
+          supabaseClient={supabaseClient}
+          initialSession={pageProps.initialSession}
+        >
+          <Component {...pageProps} />
+        </SessionContextProvider>
+      </PersistGate>
     </Provider>
   );
 }

@@ -131,3 +131,12 @@ export const createNewTest = async (values: any) => {
 };
 
 
+export const editTest = async (values: any) => {
+  try {
+    const res = await API.post("/tests/editTest", values);
+    return res.data.tests;
+  } catch (e) {
+    console.log(e);
+  }
+};
+

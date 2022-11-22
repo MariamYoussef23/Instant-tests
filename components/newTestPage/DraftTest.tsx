@@ -15,8 +15,7 @@ function DraftTest({}: Props): ReactElement {
 
   const initialState = questions.map((x: any) => ({
     questionNo: x.questionNo,
-  }));
-  //   var initialState = questions.map(({questionNo})  => ({questionNo}));
+  }))
 
   const [input, setInput] = useState({ value: "", id: "" });
   const [fields, setFields] = useState(initialState);

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import Header from "../components/Header";
 import TestModal from "../components/newTestPage/TestModal";
 import { GetStaticPaths, GetStaticProps } from "next/types";
@@ -9,6 +9,8 @@ import {
 import SuggestedQuestions from "../components/newTestPage/SuggestedQuestions";
 import FilteredCategory from "../components/newTestPage/FilteredCategory";
 import DraftTestModal from "../components/newTestPage/DraftTestModal";
+import { clearOptions } from "../redux/optionsSlice";
+import { useAppDispatch } from "../redux/hooks";
 
 interface Props {
   data: any;

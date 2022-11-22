@@ -1,11 +1,38 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import Header from "../../../components/Header";
 import DraftTest from "../../../components/newTestPage/DraftTest";
+import { useRouter } from "next/router";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { clearTest, testQuestions } from "../../../redux/testSlice";
+import { editTest } from "../../../utils/apiFunctions";
+import { clearOptions } from "../../../redux/optionsSlice";
 
 interface Props {}
 
 function edit({}: Props): ReactElement {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const questions = useAppSelector(testQuestions);
+  const [newTitle, setNewTitle] = useState(``);
   const [title, setTitle] = useState("");
+  useEffect(() => {
+    if (!router.isReady) return;
+    const { name } = router.query;
+    setNewTitle(`${name}`);
+    setTitle(`${name}`);
+  }, [router.isReady]);
+  console.log(router.query);
+
+  const values = { questions, newTitle, title };
+  console.log(values);
+
+  const handleSaveChanges = () => {
+    //save changes in database (api)
+    editTest(values);
+    dispatch(clearTest());
+    dispatch(clearOptions());
+    router.push("/yourTests");
+  };
 
   return (
     <div>
@@ -29,12 +56,21 @@ function edit({}: Props): ReactElement {
               name="name"
               id="name"
               className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
+              onChange={(e) => setNewTitle(e.target.value)}
+              value={newTitle}
             />
           </div>
         </div>
         <DraftTest />
+      </div>
+      <div className="flex justify-end mr-10 mb-3">
+        <button
+          type="button"
+          className="rounded-md border border-transparent bg-indigo-600 px-3 py-2 text-sm font-medium leading-4 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={() => handleSaveChanges()}
+        >
+          Save Changes
+        </button>
       </div>
     </div>
   );
