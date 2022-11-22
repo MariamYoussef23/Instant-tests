@@ -3,11 +3,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import DraftTest from "./DraftTest";
 import router from "next/router";
+import { useRouter } from 'next/router'
 
 interface Props {}
 
 function DraftTestModal({}: Props): ReactElement {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   return (
     <div className="z-10">
       <div className="flex flex-col items-center">

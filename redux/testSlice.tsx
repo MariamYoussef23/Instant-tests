@@ -59,10 +59,17 @@ export const optionsSlice = createSlice({
     clearTest: (state) => {
       state.value = [];
     },
+    //function to add test for editing
+    addOptions: (state, action: PayloadAction<[]>) => {
+      state.value = [...state.value, ...action.payload];
+    },
+    editTestInitial: (state, action: PayloadAction<[]>) => {
+      state.value = [...state.value, ...action.payload];
+    },
   },
 });
 
-export const { addQuestion, removeQuestion, editQuestionNo, clearTest } =
+export const { addQuestion, removeQuestion, editQuestionNo, clearTest, editTestInitial } =
   optionsSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

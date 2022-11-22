@@ -1,5 +1,5 @@
 import { useUser } from "@supabase/auth-helpers-react";
-import router from "next/router";
+import router, { NextRouter, useRouter } from "next/router";
 import React, { ReactElement, useState } from "react";
 import Header from "../components/Header";
 import DraftTest from "../components/newTestPage/DraftTest";
@@ -13,6 +13,7 @@ interface Props {}
 function SaveTest({}: Props): ReactElement {
   const user = useUser();
   const dispatch = useAppDispatch();
+  const router: NextRouter = useRouter();
 
   const questions = useAppSelector(testQuestions);
 
@@ -27,6 +28,7 @@ function SaveTest({}: Props): ReactElement {
       createNewTest(values);
       dispatch(clearTest());
       dispatch(clearOptions());
+      router.push("/yourTests");
     }
   };
 
