@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next/types";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import Header from "../../../components/Header";
 import { prisma } from "../../../lib/prisma";
 import { useAppDispatch } from "../../../redux/hooks";
@@ -28,6 +28,18 @@ function Test({ test }: Props): ReactElement {
     router.push(`/yourTests/${test.name}/edit`);
   };
 
+  const setPrintState = () => {
+    var testQuestions: any = [];
+    const questions = test.questions.map((x: any) => {
+      var question = x.question;
+      question.questionNo = x.questionNo;
+      testQuestions = [...testQuestions, question];
+    });
+    dispatch(clearTest());
+    dispatch(editTestInitial(testQuestions));
+    router.push(`/yourTests/${test.name}/pdfPrint`);
+  };
+
   return (
     <div>
       <Header />
@@ -36,10 +48,18 @@ function Test({ test }: Props): ReactElement {
           {test.name}
         </h3>
       </div>
-      <div className="pr-10 grid justify-items-stretch">
+
+      <div className="pr-10 flex justify-end ">
         <button
           type="button"
-          className="justify-self-end items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="mr-5 justify-self-end items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          onClick={() => setPrintState()}
+        >
+          Print view
+        </button>
+        <button
+          type="button"
+          className="ml-5 justify-self-end items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           onClick={() => setEditState()}
         >
           Edit test

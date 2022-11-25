@@ -51,14 +51,15 @@ function YourTests({ tests }: Props): ReactElement {
             </div>
 
             <div>
-              <div className="-mt-px grid justify-items-stretch">
+              <div className="-mt-px flex justify-items-end">
                 <button
                   type="button"
-                  className="drop-shadow-2xl m-3 justify-self-end items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="drop-shadow-2xl m-3   items-center rounded border border-transparent bg-indigo-600 px-2.5 py-1.5 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                   onClick={() => router.push(`/yourTests/${test.name}`)}
                 >
-                  view test
+                  view
                 </button>
+                
               </div>
             </div>
           </li>
