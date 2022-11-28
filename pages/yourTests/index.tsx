@@ -5,6 +5,7 @@ import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 import { getAllTests } from "../../utils/apiFunctions";
 import { useRouter } from "next/router";
 
+
 interface Props {
   tests: [
     {
@@ -59,7 +60,6 @@ function YourTests({ tests }: Props): ReactElement {
                 >
                   view
                 </button>
-                
               </div>
             </div>
           </li>

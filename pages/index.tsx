@@ -1,12 +1,13 @@
 import { useUser } from "@supabase/auth-helpers-react";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import React from "react";
 import HomeHeader from "../components/HomeHeader";
 
-
 const Home: NextPage = () => {
   const user = useUser();
- 
+  const router = useRouter();
+
   return (
     <div>
       <HomeHeader />
@@ -28,39 +29,39 @@ const Home: NextPage = () => {
           {!user ? (
             <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
               <div className="rounded-md shadow m-10">
-                <a
-                  href="login"
+                <div
                   className="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
+                  onClick={() => router.push("/login")}
                 >
                   Get Started
-                </a>
+                </div>
               </div>
             </div>
           ) : (
             <div className="mx-auto mt-5 max-w-md sm:flex sm:justify-center md:mt-8">
               <div className="rounded-full shadow-2xl m-10">
-                <a
-                  href="#"
+                <div
                   className="flex rounded-full w-full items-center justify-center border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
+                  onClick={() => router.push("/newTest")}
                 >
                   create a new test
-                </a>
+                </div>
               </div>
               <div className="rounded-full shadow-2xl m-10">
-                <a
-                  href="testBank"
+                <div
                   className="flex rounded-full w-full items-center justify-center border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
+                  onClick={() => router.push("/testBank")}
                 >
                   View test bank
-                </a>
+                </div>
               </div>
               <div className="rounded-full shadow-2xl m-10">
-                <a
-                  href="#"
+                <div
                   className="flex rounded-full w-full items-center justify-center border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 md:py-4 md:px-10 md:text-lg"
+                  onClick={() => router.push("/yourTests")}
                 >
                   Your Test History
-                </a>
+                </div>
               </div>
             </div>
           )}

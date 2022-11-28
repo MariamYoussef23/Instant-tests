@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { clearOptions } from "../redux/optionsSlice";
 import { clearTest, testQuestions } from "../redux/testSlice";
 import { createNewTest } from "../utils/apiFunctions";
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 
 interface Props {}
 
@@ -104,3 +105,5 @@ function SaveTest({}: Props): ReactElement {
 }
 
 export default SaveTest;
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/login" });

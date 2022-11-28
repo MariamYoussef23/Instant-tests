@@ -20,7 +20,7 @@ function login({}: Props): ReactElement {
                 <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900">
                   Sign in to your account
                 </h2>
-                <p className="mt-2 text-sm text-gray-600">
+                {/* <p className="mt-2 text-sm text-gray-600">
                   Or{" "}
                   <a
                     href="#"
@@ -28,7 +28,7 @@ function login({}: Props): ReactElement {
                   >
                     start your 14-day free trial
                   </a>
-                </p>
+                </p> */}
               </div>
 
               <div className="mt-8">

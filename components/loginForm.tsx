@@ -87,7 +87,7 @@ function LoginForm({}: Props): ReactElement {
         </div>
       </div>
 
-      <div className="flex items-center justify-between">
+      {/* <div className="flex items-center justify-between">
         <div className="flex items-center">
           <input
             id="remember-me"
@@ -111,7 +111,7 @@ function LoginForm({}: Props): ReactElement {
             Forgot your password?
           </a>
         </div>
-      </div>
+      </div> */}
 
       <div>
         <button

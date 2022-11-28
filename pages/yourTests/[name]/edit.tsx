@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import { clearTest, testQuestions } from "../../../redux/testSlice";
 import { editTest } from "../../../utils/apiFunctions";
 import { clearOptions } from "../../../redux/optionsSlice";
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 
 interface Props {}
 
@@ -77,3 +78,5 @@ function edit({}: Props): ReactElement {
 }
 
 export default edit;
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/login" });

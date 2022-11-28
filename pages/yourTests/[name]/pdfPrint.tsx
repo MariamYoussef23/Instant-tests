@@ -1,3 +1,4 @@
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
 import React, { ReactElement, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
@@ -104,3 +105,5 @@ function PdfPrint({}: Props): ReactElement {
 }
 
 export default PdfPrint;
+
+export const getServerSideProps = withPageAuth({ redirectTo: "/login" });

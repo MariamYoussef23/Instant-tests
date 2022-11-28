@@ -2,11 +2,13 @@ import React, { ReactElement } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useUser } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 function HomeHeader({}: Props): ReactElement {
   const user = useUser();
+  const router = useRouter();
 
   return (
     <div className="bg-gray-100 shadow-lg ">
@@ -25,7 +27,7 @@ function HomeHeader({}: Props): ReactElement {
         </motion.div>
 
         {!user ? (
-          <Link href="login">
+          <div onClick={() => router.push("/login")}>
             <motion.div
               initial={{
                 // x: 500,
@@ -38,7 +40,7 @@ function HomeHeader({}: Props): ReactElement {
             >
               login
             </motion.div>
-          </Link>
+          </div>
         ) : (
           <motion.div
             initial={{

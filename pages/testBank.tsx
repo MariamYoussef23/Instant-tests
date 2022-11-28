@@ -56,19 +56,33 @@ function TestBank({ data }: Props) {
 
 export default TestBank;
 
-// export const getServerSideProps = withPageAuth({ redirectTo: "/login" });
-
-export const getStaticProps: GetStaticProps = async (context) => {
-  const categories = await getAllQuestionsByCategory();
-
-  const difficulty = await getDifficulty();
-
-  return {
-    props: {
-      data: {
-        categories,
-        difficulty,
+export const getServerSideProps = withPageAuth({
+  redirectTo: "/login",
+  async getServerSideProps() {
+    const categories = await getAllQuestionsByCategory();
+    const difficulty = await getDifficulty();
+    return {
+      props: {
+        data: {
+          categories,
+          difficulty,
+        },
       },
-    }, // will be passed to the page component as props
-  };
-};
+    };
+  },
+});
+
+// export const getStaticProps: GetStaticProps = async (context) => {
+//   const categories = await getAllQuestionsByCategory();
+
+//   const difficulty = await getDifficulty();
+
+//   return {
+//     props: {
+//       data: {
+//         categories,
+//         difficulty,
+//       },
+//     }, // will be passed to the page component as props
+//   };
+// };

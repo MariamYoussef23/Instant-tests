@@ -4,16 +4,18 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { FiMenu } from "react-icons/fi";
 import { GrClose } from "react-icons/gr";
+import { useRouter } from "next/router";
 
 interface Props {}
 
 function Header({}: Props): ReactElement {
   const user = useUser();
+  const router = useRouter();
 
   const links = [
-    { name: "Test Bank", link: "testBank" },
-    { name: "New Test", link: "newTest" },
-    { name: "yourTests", link: "yourTests" },
+    { name: "Test Bank", link: "/testBank" },
+    { name: "New Test", link: "/newTest" },
+    { name: "yourTests", link: "/yourTests" },
   ];
 
   const [open, setOpen] = useState(false);
@@ -45,7 +47,10 @@ function Header({}: Props): ReactElement {
         >
           <div className="md:flex md:flex-row md:items-center md:mx-3 ">
             {links.map((item) => (
-              <Link href={`${item.link}`} key={Math.random()}>
+              <div
+                key={Math.random()}
+                onClick={() => router.push(`${item.link}`)}
+              >
                 <motion.div
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ x: 0, opacity: 1, scale: 1 }}
@@ -54,7 +59,7 @@ function Header({}: Props): ReactElement {
                 >
                   {`${item.name}`}
                 </motion.div>
-              </Link>
+              </div>
             ))}
           </div>
           <motion.div

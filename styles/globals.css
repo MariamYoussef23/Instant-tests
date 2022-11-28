@@ -10,16 +10,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-/* @media print {
-  div.watermark {
-    position: fixed;
-    top: 0;
-    margin: 1;
-  }
-  .content-block, p {
-    page-break-inside: avoid;
-  }
-} */
+
 
 table.page-container div.content {
   page-break-inside: avoid;

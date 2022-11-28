@@ -1,3 +1,4 @@
+import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next/types";
 import React, { ReactElement, useEffect } from "react";
@@ -39,6 +40,12 @@ function Test({ test }: Props): ReactElement {
     dispatch(editTestInitial(testQuestions));
     router.push(`/yourTests/${test.name}/pdfPrint`);
   };
+
+  const user = useUser();
+
+  useEffect(() => {
+    !user && router.push("/login");
+  }, []);
 
   return (
     <div>
@@ -106,7 +113,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 };
 
@@ -128,5 +135,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       test: JSON.parse(JSON.stringify(testQuestions)),
     },
+    revalidate: 10,
   };
 };
