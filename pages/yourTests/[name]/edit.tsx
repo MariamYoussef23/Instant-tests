@@ -10,7 +10,7 @@ import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 
 interface Props {}
 
-function edit({}: Props): ReactElement {
+function Edit({}: Props): ReactElement {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const questions = useAppSelector(testQuestions);
@@ -77,6 +77,6 @@ function edit({}: Props): ReactElement {
   );
 }
 
-export default edit;
+export default Edit;
 
 export const getServerSideProps = withPageAuth({ redirectTo: "/login" });
