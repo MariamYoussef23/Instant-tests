@@ -43,7 +43,7 @@ export default async function handler(
 
       const questionOnTest = await prisma.questionsOnTests.create({
         data: {
-          testId: test?.id,
+          testId: +test!.id,
           questionId: +question!.id,
           questionNo: questions[i].questionNo,
         },
