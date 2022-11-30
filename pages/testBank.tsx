@@ -8,7 +8,8 @@ import TestBankFilter from "../components/testBankPage/testBankFilter";
 import { GetStaticPaths, GetStaticProps } from "next/types";
 import { SupabaseClient } from "@supabase/auth-helpers-react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import axios from "axios";
+import { prisma } from "../lib/prisma";
+
 import {
   getAllQuestions,
   getAllQuestionsByCategory,
@@ -59,8 +60,16 @@ export default TestBank;
 export const getServerSideProps = withPageAuth({
   redirectTo: "/login",
   async getServerSideProps() {
-    const categories = await getAllQuestionsByCategory();
-    const difficulty = await getDifficulty();
+    // const categories = await getAllQuestionsByCategory();
+    const categories = await prisma.category.findMany({
+      include: {
+        questions: true,
+      },
+    });
+
+    // const difficulty = await getDifficulty();
+    const difficulty = await prisma.difficulty.findMany();
+
     return {
       props: {
         data: {
