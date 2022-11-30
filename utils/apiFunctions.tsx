@@ -4,7 +4,8 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { addOptions } from "../redux/optionsSlice";
 
-const API = axios.create({ baseURL: "http://localhost:3000/api" });
+
+const API = axios.create({ baseURL: `${process.env.BASE_URL}/api` });
 
 export const loginApi = async (
   values: any,
@@ -98,19 +99,21 @@ export const getDifficulty = async () => {
   }
 };
 
-export const suggestedQuestionsAPI = async (dispatch: Dispatch, values: any) => {
+export const suggestedQuestionsAPI = async (
+  dispatch: Dispatch,
+  values: any
+) => {
   try {
     const res: any = await API.post("/questions/options", values);
     const response = res.data.map((v: any) => ({
       ...v,
       hidden: false,
-    }))
-    console.log(response)
+    }));
+    console.log(response);
     // save res in redux
     dispatch(addOptions(response));
   } catch (error) {}
 };
-
 
 export const getAllTests = async () => {
   try {
@@ -130,7 +133,6 @@ export const createNewTest = async (values: any) => {
   }
 };
 
-
 export const editTest = async (values: any) => {
   try {
     const res = await API.post("/tests/editTest", values);
@@ -139,4 +141,3 @@ export const editTest = async (values: any) => {
     console.log(e);
   }
 };
-
