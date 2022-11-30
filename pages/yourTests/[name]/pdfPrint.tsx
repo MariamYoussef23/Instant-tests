@@ -51,7 +51,7 @@ function PdfPrint({}: Props): ReactElement {
                     Logo{" "}
                   </div>
                   <div className="row-span-4 col-span-2 border text-center p-3">
-                    OPERATION DEPARTMENT FLIGHT TRAINING SECTION
+                    EON-101 Mid-Term Exam
                   </div>
                   <div className="col-span-1 row-span-2 border pl-2">
                     {query.name}
@@ -68,10 +68,10 @@ function PdfPrint({}: Props): ReactElement {
               <td>
                 {/* printed content */}
                 <div className="m-10">
-                  <p className="m-5">
+                  {/* <p className="m-5">
                     Kindly answer the following questions, using the attached
                     answer sheet. Do not write on this paper.
-                  </p>
+                  </p> */}
 
                   <div>
                     {questions.map((question: any, indx: any) => (
