@@ -5,7 +5,7 @@ import { Dispatch } from "redux";
 import { addOptions } from "../redux/optionsSlice";
 
 
-const API = axios.create({ baseURL: `${process.env.BASE_URL}/api` });
+const API = axios.create({ baseURL: `/api` });
 
 export const loginApi = async (
   values: any,
