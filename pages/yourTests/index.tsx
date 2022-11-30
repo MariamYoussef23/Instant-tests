@@ -4,6 +4,7 @@ import { EnvelopeIcon, PhoneIcon } from "@heroicons/react/20/solid";
 import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 import { getAllTests } from "../../utils/apiFunctions";
 import { useRouter } from "next/router";
+import { prisma } from "../../lib/prisma";
 
 
 interface Props {
@@ -74,7 +75,9 @@ export default YourTests;
 export const getServerSideProps = withPageAuth({
   redirectTo: "/login",
   async getServerSideProps() {
-    const tests = await getAllTests();
+    // const tests = await getAllTests();
+    const tests = await prisma.test.findMany();
+
     return {
       props: {
         tests,

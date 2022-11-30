@@ -2,6 +2,8 @@ import React, { ReactElement, useEffect, useState } from "react";
 import Header from "../components/Header";
 import TestModal from "../components/newTestPage/TestModal";
 import { GetStaticPaths, GetStaticProps } from "next/types";
+import { prisma } from "../lib/prisma";
+
 import {
   getAllQuestionsByCategory,
   getDifficulty,
@@ -80,8 +82,15 @@ export default NewTest;
 export const getServerSideProps = withPageAuth({
   redirectTo: "/login",
   async getServerSideProps() {
-    const categories = await getAllQuestionsByCategory();
-    const difficulty = await getDifficulty();
+    // const categories = await getAllQuestionsByCategory();
+    const categories = await prisma.category.findMany({
+      include: {
+        questions: true,
+      },
+    });
+    // const difficulty = await getDifficulty();
+    const difficulty = await prisma.difficulty.findMany();
+
     return {
       props: {
         data: {
