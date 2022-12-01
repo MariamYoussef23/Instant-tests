@@ -79,17 +79,17 @@ export const getServerSideProps = withPageAuth({
 
     //json.parse(json.stringify(createdAt))
 
-    const tests = res.map((test) => {
-      return {
-        ...test,
-        createdAt: JSON.parse(JSON.stringify(test.createdAt)),
-        updatedAt: JSON.parse(JSON.stringify(test.updatedAt)),
-      };
-    });
+    // const tests = res.map((test) => {
+    //   return {
+    //     ...test,
+    //     createdAt: JSON.parse(JSON.stringify(test.createdAt)),
+    //     updatedAt: JSON.parse(JSON.stringify(test.updatedAt)),
+    //   };
+    // });
 
     return {
       props: {
-        tests,
+        tests: JSON.parse(JSON.stringify(res)),
       },
     };
   },

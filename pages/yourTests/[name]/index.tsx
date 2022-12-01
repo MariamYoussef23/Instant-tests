@@ -1,3 +1,4 @@
+import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 import { useUser } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticProps } from "next/types";
@@ -43,9 +44,9 @@ function Test({ test }: Props): ReactElement {
 
   const user = useUser();
 
-  useEffect(() => {
-    !user && router.push("/login");
-  }, []);
+  // useEffect(() => {
+  //   !user && router.push("/login");
+  // }, []);
 
   return (
     <div>
@@ -102,39 +103,64 @@ function Test({ test }: Props): ReactElement {
 
 export default Test;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const tests = await prisma.test.findMany();
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const tests = await prisma.test.findMany();
 
-  const paths = tests!.map((test: any) => {
-    return {
-      params: { name: test.name },
-    };
-  });
+//   const paths = tests!.map((test: any) => {
+//     return {
+//       params: { name: test.name },
+//     };
+//   });
 
-  return {
-    paths,
-    fallback: "blocking",
-  };
-};
+//   return {
+//     paths,
+//     fallback: "blocking",
+//   };
+// };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const name: any = params?.name!;
+// export const getStaticProps: GetStaticProps = async ({ params }) => {
+//   const name: any = params?.name!;
 
-  const testQuestions = await prisma.test.findUnique({
-    where: { name },
-    include: {
-      questions: {
-        include: {
-          question: true,
+//   const testQuestions = await prisma.test.findUnique({
+//     where: { name },
+//     include: {
+//       questions: {
+//         include: {
+//           question: true,
+//         },
+//       },
+//     },
+//   });
+
+//   return {
+//     props: {
+//       test: JSON.parse(JSON.stringify(testQuestions)),
+//     },
+//     revalidate: 10,
+//   };
+// };
+
+export const getServerSideProps = withPageAuth({
+  redirectTo: "/login",
+  async getServerSideProps(context: any) {
+    // const name: any = params?.name!;
+    const name = context!.params.name;
+
+    const testQuestions = await prisma.test.findUnique({
+      where: { name },
+      include: {
+        questions: {
+          include: {
+            question: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  return {
-    props: {
-      test: JSON.parse(JSON.stringify(testQuestions)),
-    },
-    revalidate: 10,
-  };
-};
+    return {
+      props: {
+        test: JSON.parse(JSON.stringify(testQuestions)),
+      },
+    };
+  },
+});

@@ -69,16 +69,16 @@ export const getServerSideProps = withPageAuth({
     });
 
     //json.parse(json.stringify(createdAt))
-    const categories = res.map((category) => {
-      const questions = category.questions?.map((question) => {
-        return {
-          ...question,
-          createdAt: JSON.parse(JSON.stringify(question.createdAt)),
-          updatedAt: JSON.parse(JSON.stringify(question.updatedAt)),
-        };
-      });
-      return { ...category, questions };
-    });
+    // const categories = res.map((category) => {
+    //   const questions = category.questions?.map((question) => {
+    //     return {
+    //       ...question,
+    //       createdAt: JSON.parse(JSON.stringify(question.createdAt)),
+    //       updatedAt: JSON.parse(JSON.stringify(question.updatedAt)),
+    //     };
+    //   });
+    //   return { ...category, questions };
+    // });
 
     // const difficulty = await getDifficulty();
     const difficulty = await prisma.difficulty.findMany();
@@ -86,7 +86,7 @@ export const getServerSideProps = withPageAuth({
     return {
       props: {
         data: {
-          categories,
+          categories: JSON.parse(JSON.stringify(res)),
           difficulty,
         },
       },
