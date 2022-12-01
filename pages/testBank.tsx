@@ -61,22 +61,26 @@ export default TestBank;
 export const getServerSideProps = withPageAuth({
   redirectTo: "/login",
   async getServerSideProps() {
-    // const categories = await getAllQuestionsByCategory();
-    const categoriess = await prisma.category.findMany({
-      include: {
-        questions: true,
-      },
-    });
 
-    //json.parse(json.stringify(createdAt))
-    const categories = categoriess.map((category) => {
-      category.questions.map((question) => {
-        JSON.parse(JSON.stringify(question.createdAt));
-      });
-    });
+    // const categories = await getAllQuestionsByCategory();
+    // const categoriess = await prisma.category.findMany({
+    //   include: {
+    //     questions: true,
+    //   },
+    // });
+
+    // // //json.parse(json.stringify(createdAt))
+    // const categories = categoriess.map((category) => {
+    //   category.questions?.map((question) => {
+    //     JSON.parse(JSON.stringify(question.createdAt));
+    //     JSON.parse(JSON.stringify(question.updatedAt));
+    //   });
+    // });
 
     // const difficulty = await getDifficulty();
     const difficulty = await prisma.difficulty.findMany();
+
+    const categories = await prisma.category.findMany();
 
     return {
       props: {
