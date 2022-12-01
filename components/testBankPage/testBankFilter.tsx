@@ -19,6 +19,7 @@ function classNames(...classes: any) {
 }
 
 function TestBankFilter({ data }: Props): ReactElement {
+  console.log(data.categories)
   const categories = data.categories.map((v: any) => ({
     ...v,
     checked: false,

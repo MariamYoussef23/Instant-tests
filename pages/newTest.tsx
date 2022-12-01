@@ -83,11 +83,24 @@ export const getServerSideProps = withPageAuth({
   redirectTo: "/login",
   async getServerSideProps() {
     // const categories = await getAllQuestionsByCategory();
-    const categories = await prisma.category.findMany({
+    const res = await prisma.category.findMany({
       include: {
         questions: true,
       },
     });
+
+    //json.parse(json.stringify(createdAt))
+    const categories = res.map((category) => {
+      const questions = category.questions?.map((question) => {
+        return {
+          ...question,
+          createdAt: JSON.parse(JSON.stringify(question.createdAt)),
+          updatedAt: JSON.parse(JSON.stringify(question.updatedAt)),
+        };
+      });
+      return { ...category, questions };
+    });
+
     // const difficulty = await getDifficulty();
     const difficulty = await prisma.difficulty.findMany();
 
