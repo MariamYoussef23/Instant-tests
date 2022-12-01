@@ -2,6 +2,7 @@ import { withPageAuth } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
 import React, { ReactElement, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
+import Header from "../../../components/Header";
 import { useAppSelector } from "../../../redux/hooks";
 import { clearTest, testQuestions } from "../../../redux/testSlice";
 
@@ -27,6 +28,7 @@ function PdfPrint({}: Props): ReactElement {
 
   return (
     <>
+      <Header />
       <div className="border-b">
         <button
           className="m-5 inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
