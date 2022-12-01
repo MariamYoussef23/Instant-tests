@@ -13,7 +13,7 @@ export default async function handler(
           }
       });
 
-      return res.status(200).json({ testBank });
+      return res.status(200).json({testBank});
     } catch (error) {
       console.log(error);
     }

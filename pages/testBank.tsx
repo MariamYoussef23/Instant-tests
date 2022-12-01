@@ -22,6 +22,7 @@ interface Props {
 }
 
 function TestBank({ data }: Props) {
+  console.log(data);
   const supabaseClient = useSupabaseClient();
   const user = useUser();
 
@@ -61,13 +62,18 @@ export const getServerSideProps = withPageAuth({
   redirectTo: "/login",
   async getServerSideProps() {
     // const categories = await getAllQuestionsByCategory();
-    const categories = await prisma.category.findMany({
+    const categoriess = await prisma.category.findMany({
       include: {
         questions: true,
       },
     });
-    
+
     //json.parse(json.stringify(createdAt))
+    const categories = categoriess.map((category) => {
+      category.questions.map((question) => {
+        JSON.parse(JSON.stringify(question.createdAt));
+      });
+    });
 
     // const difficulty = await getDifficulty();
     const difficulty = await prisma.difficulty.findMany();
