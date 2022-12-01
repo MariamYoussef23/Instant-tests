@@ -53,10 +53,10 @@ function PdfPrint({}: Props): ReactElement {
                     Logo{" "}
                   </div>
                   <div className="row-span-4 col-span-2 border text-center p-3">
-                    EON-101 Mid-Term Exam
+                  {query.name}
                   </div>
                   <div className="col-span-1 row-span-2 border pl-2">
-                    {query.name}
+                    Econ - 101
                   </div>
                   <div className="col-span-1 row-span-2 border pl-2">
                     Issue Date: {date}
