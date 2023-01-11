@@ -9,13 +9,13 @@ import { GetStaticPaths, GetStaticProps } from "next/types";
 import { SupabaseClient } from "@supabase/auth-helpers-react";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { prisma } from "../lib/prisma";
-
 import {
   getAllQuestions,
   getAllQuestionsByCategory,
   getCategories,
   getDifficulty,
 } from "../utils/apiFunctions";
+import ImportToDatabase from "../components/testBankPage/importToDatabase";
 
 interface Props {
   data: any;
@@ -49,6 +49,10 @@ function TestBank({ data }: Props) {
         <h3 className=" grid justify-items-center top-24 uppercase tracking-[10px] text-2xl m-10 ">
           Test Bank
         </h3>
+        {/* import test bank to database modal */}
+        <div className="flex justify-center">
+          <ImportToDatabase data={data} />
+        </div>
       </div>
 
       <TestBankFilter data={data} />
