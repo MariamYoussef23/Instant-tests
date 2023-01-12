@@ -9,8 +9,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import Dropzone, { useDropzone } from "react-dropzone";
 import { BsFillFolderFill } from "react-icons/bs";
 import * as XLSX from "xlsx";
-import { readFileSync } from "fs";
-import { read } from "xlsx/xlsx.mjs";
+import { read, utils } from "xlsx";
+
 
 interface Props {
   data: any;
@@ -23,35 +23,24 @@ function ImportToDatabase({ data }: Props): ReactElement {
   const [excelFile, setExcelFile] = useState({
     path: "No File Attached, Please select an excel file to be imported",
   });
-  const [excelData, setExcelData] = useState(null);
+  const [excelData, setExcelData] = useState({});
 
   console.log(excelFile);
   console.log(excelData);
 
-//   const parse = (filename: any) => {
-//     const excel = XLSX.readFile(filename);
+  //turn excel file into json format
+  const onDrop = useCallback(async (acceptedFiles: any) => {
+    const f = await acceptedFiles[0].arrayBuffer();
+    const wb = read(f)
+    let questions : any= utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]!]!);
+    let difficulty : any= utils.sheet_to_json(wb.Sheets[wb.SheetNames[1]!]!);
+    let category : any= utils.sheet_to_json(wb.Sheets[wb.SheetNames[2]!]!);
+    setExcelData({...excelData, questions, difficulty, category})
+  }, []);
 
-//     return Object.keys(excel.Sheets).map((name) => ({
-//       name,
-//       data: XLSX.utils.sheet_to_json(excel.Sheets[name]),
-//     }));
-//   };
-
-  const inputExcel =  () => {
-    //   turn excel file into json format
-
-    if (excelFile !== null) {
-      const buf = readFileSync(excelFile.path);
-      const workbook = read(buf);
-      const Questions = workbook.SheetNames[0];
-      const QuestionSheet = workbook.Sheets[Questions];
-      const info: any = XLSX.utils.sheet_to_json(QuestionSheet);
-      setExcelData(info);
-    } else {
-      setExcelData(null);
-    }
-
+  const inputExcel = () => {
     // send the excelFile data as json to the api
+
     setOpen(false);
   };
 
@@ -114,9 +103,7 @@ function ImportToDatabase({ data }: Props): ReactElement {
                               className="bg-grey-500 dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:bg-black dark:hover:border-gray-500 dark:hover:bg-gray-600"
                             >
                               <Dropzone
-                                onDrop={useCallback((acceptedFiles: any) => {
-                                  setExcelFile(acceptedFiles[0]);
-                                }, [])}
+                                onDrop={acceptedFiles => onDrop(acceptedFiles)}
                               >
                                 {({
                                   getRootProps,
@@ -160,16 +147,16 @@ function ImportToDatabase({ data }: Props): ReactElement {
                                       />
                                     </div>
                                     <div>
-                                      {/* {acceptedFiles.map((file) => (
+                                      {acceptedFiles.map((file) => (
                                         <div className="flex" key={Math.random()}>
                                           <BsFillFolderFill className="mr-3" />
                                           <p className="">{file.name}</p>
                                         </div>
-                                      ))} */}
-                                      <div className="flex ">
+                                      ))}
+                                      {/* <div className="flex ">
                                         <BsFillFolderFill className="mr-3" />
                                         <p className="">{excelFile!.path!}</p>
-                                      </div>
+                                      </div> */}
                                     </div>
                                   </section>
                                 )}
