@@ -1,6 +1,6 @@
 import React, {
   ReactElement,
-  useRef,
+  useRef, 
   Fragment,
   useState,
   useCallback,
@@ -10,6 +10,7 @@ import Dropzone, { useDropzone } from "react-dropzone";
 import { BsFillFolderFill } from "react-icons/bs";
 import * as XLSX from "xlsx";
 import { read, utils } from "xlsx";
+import { updateCategories, updateDifficulty, updateQuestions } from "../../utils/apiFunctions";
 
 
 interface Props {
@@ -39,8 +40,10 @@ function ImportToDatabase({ data }: Props): ReactElement {
   }, []);
 
   const inputExcel = () => {
-    // send the excelFile data as json to the api
-
+    // send the excelData  as json to the api
+    updateCategories(excelData)
+    updateDifficulty(excelData)
+    updateQuestions(excelData)
     setOpen(false);
   };
 

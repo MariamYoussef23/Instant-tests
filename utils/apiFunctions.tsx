@@ -141,3 +141,32 @@ export const editTest = async (values: any) => {
     console.log(e);
   }
 };
+
+export const updateCategories = async (excelData: any) => {
+  try {
+    const res = await API.post("/categories/updateCategories", excelData);
+    return res.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateDifficulty = async (excelData: any) => {
+  try {
+    const res = await API.post("/difficulty/updateDifficulty", excelData);
+    return res.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateQuestions = async (excelData: any) => {
+  try {
+    const res = await API.post("/questions/updateQuestions", excelData);
+    return res.data;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+
