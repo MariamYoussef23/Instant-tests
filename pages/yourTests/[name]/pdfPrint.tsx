@@ -5,12 +5,16 @@ import { useReactToPrint } from "react-to-print";
 import Header from "../../../components/Header";
 import { useAppSelector } from "../../../redux/hooks";
 import { clearTest, testQuestions } from "../../../redux/testSlice";
+import { prisma } from "../../../lib/prisma";
 
-interface Props {}
+interface Props {
+  test: any;
+}
 
-function PdfPrint({}: Props): ReactElement {
+function PdfPrint({ test }: Props): ReactElement {
   const questions = useAppSelector(testQuestions);
   const { query } = useRouter();
+  console.log(questions)
 
   const componentRef = useRef(null);
   const handlePrint = useReactToPrint({
@@ -53,13 +57,13 @@ function PdfPrint({}: Props): ReactElement {
                     Logo{" "}
                   </div>
                   <div className="row-span-4 col-span-2 border text-center p-3">
-                  {query.name}
+                    {query.name}
                   </div>
                   <div className="col-span-1 row-span-2 border pl-2">
-                    Econ - 101
+                    {test.type}
                   </div>
                   <div className="col-span-1 row-span-2 border pl-2">
-                    Issue Date: {date}
+                    Issue Date: {test.date}
                   </div>
                 </div>
               </th>
@@ -108,4 +112,27 @@ function PdfPrint({}: Props): ReactElement {
 
 export default PdfPrint;
 
-export const getServerSideProps = withPageAuth({ redirectTo: "/login" });
+export const getServerSideProps = withPageAuth({
+  redirectTo: "/login",
+  async getServerSideProps(context: any) {
+    // const name: any = params?.name!;
+    const name = context!.params.name;
+
+    const testQuestions = await prisma.test.findUnique({
+      where: { name },
+      include: {
+        questions: {
+          include: {
+            question: true,
+          },
+        },
+      },
+    });
+
+    return {
+      props: {
+        test: JSON.parse(JSON.stringify(testQuestions)),
+      },
+    };
+  },
+});

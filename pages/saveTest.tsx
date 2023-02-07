@@ -19,8 +19,10 @@ function SaveTest({}: Props): ReactElement {
   const questions = useAppSelector(testQuestions);
 
   const [title, setTitle] = useState("");
+  const [type, setType] = useState("");
+  const [date, setDate] = useState("");
 
-  const values = { user: user?.id, questions, title };
+  const values = { user: user?.id, questions, title, type, date };
 
   const handleSaveTest = () => {
     if (title === "") {
@@ -56,18 +58,56 @@ function SaveTest({}: Props): ReactElement {
               <div className=" p-3 md:mr-10 md:ml-10">
                 <div className="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
                   <label
-                    htmlFor="name"
+                    htmlFor="title"
                     className="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900"
                   >
                     Test Title
                   </label>
                   <input
                     type="text"
-                    name="name"
+                    name="title"
                     id="name"
                     className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                     onChange={(e) => setTitle(e.target.value)}
                     value={title}
+                  />
+                </div>
+              </div>
+
+              <div className=" p-3 md:mr-10 md:ml-10">
+                <div className="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                  <label
+                    htmlFor="type"
+                    className="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900"
+                  >
+                    Test Type
+                  </label>
+                  <input
+                    type="text"
+                    name="type"
+                    id="name"
+                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                    onChange={(e) => setType(e.target.value)}
+                    value={type}
+                  />
+                </div>
+              </div>
+
+              <div className=" p-3 md:mr-10 md:ml-10">
+                <div className="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                  <label
+                    htmlFor="date"
+                    className="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900"
+                  >
+                    Date on Test
+                  </label>
+                  <input
+                    type="text"
+                    name="date"
+                    id="name"
+                    className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                    onChange={(e) => setDate(e.target.value)}
+                    value={date}
                   />
                 </div>
               </div>

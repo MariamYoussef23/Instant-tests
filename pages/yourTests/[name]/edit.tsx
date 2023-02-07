@@ -7,14 +7,21 @@ import { clearTest, testQuestions } from "../../../redux/testSlice";
 import { editTest } from "../../../utils/apiFunctions";
 import { clearOptions } from "../../../redux/optionsSlice";
 import { withPageAuth } from "@supabase/auth-helpers-nextjs";
+import { Query } from "typeorm/driver/Query";
+import { prisma } from "../../../lib/prisma";
 
-interface Props {}
 
-function Edit({}: Props): ReactElement {
+interface Props {
+  test: any;
+}
+
+function Edit({test}: Props): ReactElement {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const questions = useAppSelector(testQuestions);
   const [newTitle, setNewTitle] = useState(``);
+  const [newType, setNewType] = useState(`${test.type}`);
+  const [newDate, setNewDate] = useState(`${test.date}`);
   const [title, setTitle] = useState("");
   useEffect(() => {
     if (!router.isReady) return;
@@ -24,7 +31,7 @@ function Edit({}: Props): ReactElement {
   }, [router.isReady]);
   console.log(router.query);
 
-  const values = { questions, newTitle, title };
+  const values = { questions, newTitle, title, newType, newDate };
   console.log(values);
 
   const handleSaveChanges = () => {
@@ -61,7 +68,45 @@ function Edit({}: Props): ReactElement {
               value={newTitle}
             />
           </div>
+
+          <div className=" mt-2 relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+            <label
+              htmlFor="name"
+              className="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900"
+            >
+              Test Type
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+              onChange={(e) => setNewType(e.target.value)}
+              value={newType}
+            />
+          </div>
+
+          <div className=" mt-2 relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+            <label
+              htmlFor="name"
+              className="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900"
+            >
+              Test Date
+            </label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+              onChange={(e) => setNewDate(e.target.value)}
+              value={newDate}
+            />
+          </div>
+
+
+
         </div>
+
         <DraftTest />
       </div>
       <div className="flex justify-end mr-10 mb-3">
@@ -79,4 +124,29 @@ function Edit({}: Props): ReactElement {
 
 export default Edit;
 
-export const getServerSideProps = withPageAuth({ redirectTo: "/login" });
+
+
+export const getServerSideProps = withPageAuth({
+  redirectTo: "/login",
+  async getServerSideProps(context: any) {
+    // const name: any = params?.name!;
+    const name = context!.params.name;
+
+    const testQuestions = await prisma.test.findUnique({
+      where: { name },
+      include: {
+        questions: {
+          include: {
+            question: true,
+          },
+        },
+      },
+    });
+
+    return {
+      props: {
+        test: JSON.parse(JSON.stringify(testQuestions)),
+      },
+    };
+  },
+});

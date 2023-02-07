@@ -15,6 +15,9 @@ interface Props {
 function Test({ test }: Props): ReactElement {
   console.log(test);
 
+  const testQuestions = test.questions;
+  //map over testQuestions and output x.question.correct
+
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -56,6 +59,14 @@ function Test({ test }: Props): ReactElement {
           {test.name}
         </h3>
       </div>
+
+      <h3 className=" grid justify-items-center top-24 ">
+        Test Type: {test.type}
+      </h3>
+
+      <h3 className=" grid justify-items-center top-24 ">
+        Test Date: {test.date}
+      </h3>
 
       <div className="pr-10 flex justify-end ">
         <button

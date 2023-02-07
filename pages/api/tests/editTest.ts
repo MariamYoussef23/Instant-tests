@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { title, newTitle, questions } = req.body;
+    const { title, newTitle, questions, newType, newDate } = req.body;
 
     //find related test id
     const test = await prisma.test.findUnique({
@@ -22,6 +22,9 @@ export default async function handler(
       },
       data: {
         name: newTitle,
+        type: newType,
+        date: newDate,
+        
         questions: {
           deleteMany: {},
         },

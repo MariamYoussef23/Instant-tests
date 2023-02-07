@@ -6,7 +6,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const { user, title, questions } = req.body;
+    const { user, title, questions, type, date } = req.body;
 
     //create a new test link to user
 
@@ -14,6 +14,8 @@ export default async function handler(
       data: {
         name: title,
         userId: user,
+        type: type, 
+        date: date
       },
     });
 
