@@ -53,9 +53,10 @@ function YourTests({ tests }: Props): ReactElement {
                 <div className="flex space-x-3">
                   <h1 className="font-bold  ">Last Update:</h1>
                   <h2>
+                    
                     {new Date(test.updatedAt).getDate()} -
-                    {new Date(tests[0].updatedAt).getMonth() + 1} -
-                    {new Date(tests[0].updatedAt).getFullYear()}
+                    {new Date(test.updatedAt).getMonth() + 1} -
+                    {new Date(test.updatedAt).getFullYear()}
                   </h2>
                 </div>
               </div>

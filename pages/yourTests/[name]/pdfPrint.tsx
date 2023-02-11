@@ -14,7 +14,7 @@ interface Props {
 function PdfPrint({ test }: Props): ReactElement {
   const questions = useAppSelector(testQuestions);
   const { query } = useRouter();
-  console.log(questions)
+  console.log(questions);
 
   const componentRef = useRef(null);
   const handlePrint = useReactToPrint({
@@ -47,7 +47,7 @@ function PdfPrint({ test }: Props): ReactElement {
         style={{ height: window.innerHeight }}
         className="m-10  "
       >
-        <table className="page-container">
+        <table className="page-container breakAfter">
           <thead className="page-header">
             <tr>
               <th>
@@ -81,7 +81,7 @@ function PdfPrint({ test }: Props): ReactElement {
 
                   <div>
                     {questions.map((question: any, indx: any) => (
-                      <div className="content p-3  m-3" key={indx}>
+                      <div className="content p-3  m-3 noBreak" key={indx}>
                         <div className="flex">
                           <h2 className="font-bold">
                             {`${question.questionNo}- `}{" "}
@@ -105,7 +105,66 @@ function PdfPrint({ test }: Props): ReactElement {
             </tr>
           </tbody>
         </table>
+
+
+      
+
+        <table className="page-container">
+          <thead className="page-header">
+            <tr>
+              <th>
+                {/* Header  */}
+                <div className=" mt-10 grid grid-rows-4 grid-flow-col border ">
+                  <div className="row-span-4 col-span-1 border text-center p-3">
+                    Logo{" "}
+                  </div>
+                  <div className="row-span-4 col-span-2 border text-center p-3">
+                    {query.name} Answers
+                  </div>
+                  <div className="col-span-1 row-span-2 border pl-2">
+                    {test.type}
+                  </div>
+                  <div className="col-span-1 row-span-2 border pl-2">
+                    Issue Date: {test.date}
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                {/* printed content */}
+                <div className="m-10">
+                  {/* <p className="m-5">
+                    Kindly answer the following questions, using the attached
+                    answer sheet. Do not write on this paper.
+                  </p> */}
+
+                  <div>
+                    {questions.map((question: any, indx: any) => (
+                      <div className="content p-3  m-3" key={indx}>
+                        <div className="flex">
+                          <h2 className="font-bold">
+                            {`${question.questionNo}- `}{" "}
+                          </h2>
+                          <h2 className="font-bold ml-1">
+                            {` ${question.question}`}{" "}
+                          </h2>
+                        </div>
+                        <ol className="pl-10">
+                          <li className="p-1"> {question.correctA}</li>
+                        </ol>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+      
     </>
   );
 }
